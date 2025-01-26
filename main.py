@@ -3,19 +3,19 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 class Node:
-    """Class representing a node in the binary search tree."""
+   
     def __init__(self, key):
         self.left = None
         self.right = None
         self.val = key
 
 class BinarySearchTree:
-    """Class representing the binary search tree itself."""
+   
     def __init__(self):
         self.root = None
 
     def insert(self, key):
-        """Insert a new key into the BST if it doesn't already exist."""
+       
         if self.search(key):  # Check if the key already exists
             return  # Do not insert if the key is already present
         new_node = Node(key)
@@ -38,11 +38,11 @@ class BinarySearchTree:
                         current = current.right
 
     def search(self, key):
-        """Search for a key in the BST."""
+       
         return self._search(self.root, key)
 
     def _search(self, node, key):
-        """Helper function to search for a key."""
+        
         if node is None:
             return False
         if node.val == key:
@@ -53,11 +53,11 @@ class BinarySearchTree:
             return self._search(node.right, key)  # Correctly search in right subtree
 
     def delete(self, key):
-        """Delete a key from the BST."""
+       
         self.root = self._delete(self.root, key)
 
     def _delete(self, node, key):
-        """Helper function to delete a key."""
+     
         if node is None:
             return node
         if key < node.val:
@@ -77,31 +77,31 @@ class BinarySearchTree:
         return node
 
     def _min_value_node(self, node):
-        """Get the node with the minimum value greater than this node."""
+       
         current = node
         while current.left is not None:
             current = current.left
         return current
 
     def get_positions(self):
-        """Get positions of nodes for visualization."""
+       
         positions = {}
         self._get_positions(self.root, 0, 0, positions, 4)  # Start with a horizontal distance of 4
         return positions
 
     def _get_positions(self, node, x, y, positions, horizontal_distance):
-        """Helper function to calculate positions of nodes."""
+       
         if node is not None:
             positions[node.val] = (x, y)
             self._get_positions(node.left, x - horizontal_distance, y - 1, positions, horizontal_distance / 2)
             self._get_positions(node.right, x + horizontal_distance, y - 1, positions, horizontal_distance / 2)
 
     def find_node(self, key):
-        """Finds and returns the node with the given key."""
+       
         return self._find_node(self.root, key)
 
     def _find_node(self, node, key):
-        """Helper function to find a node."""
+      
         if node is None or node.val == key:
             return node
         if key < node.val:
@@ -110,15 +110,15 @@ class BinarySearchTree:
             return self._find_node(node.right, key)
 
     def inorder_traversal(self):
-        """Perform inorder traversal and return sorted values."""
+      
         return self._inorder_traversal(self.root)
 
     def _inorder_traversal(self, node):
-        """Helper function for inorder traversal."""
+        
         return self._inorder_traversal(node.left) + [node.val] + self._inorder_traversal(node.right) if node else []
 
 class SearchEngine:
-    """Class representing the search engine."""
+   
     def __init__(self, master):
         self.master = master
         self.master.title("نمایش درخت جستجوی دودویی")
@@ -131,7 +131,7 @@ class SearchEngine:
         self.setup_interface()
 
     def setup_interface(self):
-        """Setup the main interface."""
+      
         # Labels and Entry for data input
         self.label = tk.Label(self.master, text="عدد را وارد کنید:", bg="#FFC0CB")
         self.label.pack(pady=10)
@@ -174,7 +174,7 @@ class SearchEngine:
         self.display_data()  # Initialize with an empty display
 
     def add_data(self):
-        """Add data to the BST from the entry field."""
+       
         data = self.data_entry.get()
         if data.isdigit():
             self.bst.insert(int(data))
@@ -183,7 +183,7 @@ class SearchEngine:
             self.update_sorted_display()  # Update sorted display
 
     def delete_data(self):
-        """Delete data from the BST."""
+        
         data = self.data_entry.get()
         if data.isdigit():
             self.bst.delete(int(data))
@@ -192,7 +192,7 @@ class SearchEngine:
             self.update_sorted_display()  # Update sorted display
 
     def update_sorted_display(self):
-        """Update the display of sorted data."""
+        
         sorted_values = self.bst.inorder_traversal()
         self.sorted_text.config(state=tk.NORMAL)  # Enable editing
         self.sorted_text.delete(1.0, tk.END)  # Clear current text
@@ -200,7 +200,7 @@ class SearchEngine:
         self.sorted_text.config(state=tk.DISABLED)  # Make the text box read-only
 
     def display_data(self):
-        """Display the BST visualization."""
+      
         # Clear the previous plot
         self.ax.clear()
         positions = self.bst.get_positions()
